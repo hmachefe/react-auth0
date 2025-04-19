@@ -12,13 +12,17 @@ const root = ReactDOM.createRoot(
 const domain = process.env.REACT_APP_AUTH0_DOMAIN!;
 const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID!;
 
+console.log('domain == ', domain);
+console.log('clientId == ', clientId);
+console.log('window.location.origin + "/callback" == ', window.location.origin + '/callback');
+
 root.render(
   <React.StrictMode>
     <Auth0Provider
       domain={domain}
       clientId={clientId}
       authorizationParams={{
-        redirect_uri: window.location.origin
+        redirect_uri: window.location.origin + '/callback'
       }}
     >
       <App />

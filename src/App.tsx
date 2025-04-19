@@ -4,6 +4,7 @@ import NavBar from './NavBar';
 import Home from './Home';
 import Profile from './Profile';
 import { useAuth0 } from '@auth0/auth0-react';
+import Callback from './Callback';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -16,6 +17,7 @@ function App() {
     <BrowserRouter>
       <NavBar />
       <Routes>
+        <Route path="/callback" element={<Callback />} />
         <Route path="/" element={<Home />} />
         <Route
           path="/profile"
