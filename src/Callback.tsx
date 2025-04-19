@@ -5,13 +5,11 @@ import { useNavigate } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 
 export default function Callback() {
-    debugger
     const { handleRedirectCallback, isLoading, error } = useAuth0();
     const { search } = useLocation();
     const navigate = useNavigate();
   
     useEffect(() => {
-        debugger
 
       // bail out if someone just browsed here manually
       if (!search.includes('code=') || !search.includes('state=')) {
