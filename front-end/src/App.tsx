@@ -6,6 +6,8 @@ import Profile from './components/Profile';
 import { useAuth0 } from '@auth0/auth0-react';
 import Callback from './components/Callback';
 import MessagesPage from './components/Messages/MessagesPage';
+import './App.css';
+
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, isLoading } = useAuth0();

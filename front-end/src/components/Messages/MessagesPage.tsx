@@ -25,10 +25,38 @@ export default function MessagesPage() {
   }, [isLoading]);
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h1>Messages pulled from the protected Express API (back-end side) using your Auth0 JWT access token</h1>
-      <MessageForm onMessageSent={fetchMessages} />
-      <MessagesList messages={messages} />
+    <div className="container">
+        <div
+        style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '1rem',
+            marginBottom: '2rem',
+            backgroundColor: '#fff',
+            padding: '1rem 1.5rem',
+            borderRadius: '8px',
+            boxShadow: '0 1px 4px rgba(0, 0, 0, 0.1)',
+            maxWidth: '1000px'
+        }}
+        >
+        <img
+            src="/images/auth0-logo.png"
+            alt="Auth0"
+            style={{
+            width: '40px',
+            height: '40px',
+            objectFit: 'contain',
+            flexShrink: 0
+            }}
+        />
+        <h1 style={{ margin: 0, fontSize: '1.25rem' }}>
+            Messages pulled from the protected Express API (back-end side) using your <strong>Auth0 JWT access token</strong>
+        </h1>
+        </div>
+
+    <MessageForm onMessageSent={fetchMessages} />
+    <MessagesList messages={messages} />
     </div>
+
   );
 }

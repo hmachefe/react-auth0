@@ -12,7 +12,7 @@ const messagesStore = [];
 const app = express();
 // Allow only your front‑end origin (or use '*' for open access)
 app.use(cors({
-  origin: 'http://localhost:3001',
+  origin: ['http://localhost:3001', 'http://localhost:3000'],
   methods: ['GET','POST','PUT','DELETE','OPTIONS'],
   allowedHeaders: ['Authorization','Content-Type']
 }));
