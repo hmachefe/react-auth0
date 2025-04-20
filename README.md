@@ -24,7 +24,7 @@ Auth0 Protected Message Page
 
 ## 📸 Preview
 
-![App Preview](./public/preview.png)
+![App Preview](./front-end/public/preview.png)
 
 Or watch this short walkthrough:
 
