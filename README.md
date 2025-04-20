@@ -62,7 +62,7 @@ node src/server.js  # runs at http://localhost:3011
 
 📄 License
 MIT License.
-Created by Your Name for educational purposes.
+Created by hugo.machefer@gmail.com for educational purposes.
 
 🤝 Credits
 
