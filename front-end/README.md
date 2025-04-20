@@ -19,6 +19,9 @@ This project is a secure, full-stack web application built with **React (fronten
 
 ---
 
+🖼️ Screenshots
+Auth0 Protected Message Page
+
 ## 📸 Preview
 
 ![App Preview](./public/preview.png)
@@ -55,3 +58,15 @@ npm start   # runs at http://localhost:3000
 cd ../back-end
 npm install
 node src/server.js  # runs at http://localhost:3011
+```
+
+📄 License
+MIT License.
+Created by Your Name for educational purposes.
+
+🤝 Credits
+
+Auth0
+
+Udemy Course Inspiration
+https://www.udemy.com/certificate/UC-e2a3871f-77d2-4e3a-a1e2-7e5dda0070e5/?utm_campaign=email&utm_medium=email&utm_source=sendgrid.com
