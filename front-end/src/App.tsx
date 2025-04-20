@@ -1,10 +1,11 @@
-import React, { JSX } from 'react';
+import { JSX } from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import NavBar from './NavBar';
-import Home from './Home';
-import Profile from './Profile';
+import NavBar from './components/NavBar';
+import Home from './components/Home';
+import Profile from './components/Profile';
 import { useAuth0 } from '@auth0/auth0-react';
-import Callback from './Callback';
+import Callback from './components/Callback';
+import MessagesPage from './components/Messages/MessagesPage';
 
 const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
   const { isAuthenticated, isLoading } = useAuth0();
@@ -24,6 +25,14 @@ function App() {
           element={
             <ProtectedRoute>
               <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/messages"
+          element={
+            <ProtectedRoute>
+              <MessagesPage />
             </ProtectedRoute>
           }
         />

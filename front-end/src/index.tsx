@@ -22,8 +22,10 @@ root.render(
       domain={domain}
       clientId={clientId}
       authorizationParams={{
+        audience: 'https://my‑api.example.com',
         redirect_uri: window.location.origin + '/callback'
       }}
+      cacheLocation="localstorage"
     >
       <App />
     </Auth0Provider>
