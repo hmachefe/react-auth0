@@ -1,14 +1,20 @@
-import React from 'react';
+// src/NavBar.tsx
 import { Link } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 
 export default function NavBar() {
   const { isAuthenticated } = useAuth0();
+
   return (
     <nav style={{ padding: '1rem', borderBottom: '1px solid #ccc' }}>
-      <Link to="/">Home</Link> |{' '}
-      {isAuthenticated && <Link to="/profile">Profile</Link>} |{' '}
-      {isAuthenticated ? <LogoutButton /> : <LoginButton />}
+      <Link to="/">Home</Link>{' '}
+      {isAuthenticated && (
+        <>
+          | <Link to="/profile">Profile</Link>{' '}
+          | <Link to="/messages">Messages</Link>
+        </>
+      )}{' '}
+      | {isAuthenticated ? <LogoutButton /> : <LoginButton />}
     </nav>
   );
 }
