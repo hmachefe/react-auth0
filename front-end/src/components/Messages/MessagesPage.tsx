@@ -2,61 +2,54 @@ import { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import MessagesList from './MessagesList';
 import MessageForm from './MessageForm';
+import './MessagesPage.css'; // ➕ custom styles
+import { Message } from '../../types/Message';
 
 export default function MessagesPage() {
   const { isLoading, getAccessTokenSilently } = useAuth0();
-  const [messages, setMessages] = useState([]);
+  const [messages, setMessages] = useState<Message[]>([]);
 
   const fetchMessages = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const res = await fetch('http://localhost:3011/messages', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
-      const { messages } = await res.json();
+
+      const apiBase = process.env.REACT_APP_API_URL || 'http://localhost:3011';
+
+      const response = await fetch(
+        apiBase + '/messages',
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      const { messages } = await response.json();
       setMessages(messages);
-    } catch (e) {
-      console.error('Failed to fetch messages:', e);
+    } catch (error) {
+      console.error('Failed to fetch messages:', error);
     }
   };
 
   useEffect(() => {
     if (!isLoading) fetchMessages();
-  }, [isLoading]);
+  }, [isLoading]); // react-hooks/exhaustive-deps
 
   return (
     <div className="container">
-        <div
-        style={{
-            display: 'flex',
-            alignItems: 'center',
-            gap: '1rem',
-            marginBottom: '2rem',
-            backgroundColor: '#fff',
-            padding: '1rem 1.5rem',
-            borderRadius: '8px',
-            boxShadow: '0 1px 4px rgba(0, 0, 0, 0.1)',
-            maxWidth: '1000px'
-        }}
-        >
+      <div className="message-header">
         <img
-            src="/images/auth0-logo.png"
-            alt="Auth0"
-            style={{
-            width: '40px',
-            height: '40px',
-            objectFit: 'contain',
-            flexShrink: 0
-            }}
+          src="/images/auth0-logo.png"
+          alt="Auth0"
+          className="auth0-logo"
         />
-        <h1 style={{ margin: 0, fontSize: '1.25rem' }}>
-            Messages pulled from the protected Express API (back-end side) using your <strong>Auth0 JWT access token</strong>
+        <h1 className="message-title">
+          Messages pulled from the protected Express API using your{' '}
+          <strong>Auth0 JWT access token</strong>
         </h1>
-        </div>
+      </div>
 
-    <MessageForm onMessageSent={fetchMessages} />
-    <MessagesList messages={messages} />
+      <MessageForm onMessageSent={fetchMessages} />
+      <MessagesList messages={messages} />
     </div>
-
   );
 }

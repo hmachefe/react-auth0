@@ -5,26 +5,33 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Auth0Provider } from '@auth0/auth0-react';
 
-const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
-);
+// Auth0 environment variables
+const domain = process.env.REACT_APP_AUTH0_DOMAIN;
+const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID;
+const audience = 'https://my‑api.example.com';
+const redirectUri = window.location.origin + '/callback';
 
-const domain = process.env.REACT_APP_AUTH0_DOMAIN!;
-const clientId = process.env.REACT_APP_AUTH0_CLIENT_ID!;
+if (!domain || !clientId) {
+  throw new Error(
+    'Missing Auth0 configuration: Make sure REACT_APP_AUTH0_DOMAIN and REACT_APP_AUTH0_CLIENT_ID are defined.'
+  );
+}
 
-console.log('domain == ', domain);
-console.log('clientId == ', clientId);
-console.log('window.location.origin + "/callback" == ', window.location.origin + '/callback');
+// Optional: Debug in development only
+if (process.env.NODE_ENV === 'development') {
+  console.log('Auth0 Domain:', domain);
+  console.log('Auth0 ClientId:', clientId);
+  console.log('Redirect URI:', redirectUri);
+}
+
+const root = ReactDOM.createRoot(document.getElementById('root') as HTMLElement);
 
 root.render(
   <React.StrictMode>
     <Auth0Provider
       domain={domain}
       clientId={clientId}
-      authorizationParams={{
-        audience: 'https://my‑api.example.com',
-        redirect_uri: window.location.origin + '/callback'
-      }}
+      authorizationParams={{ audience, redirect_uri: redirectUri }}
       cacheLocation="localstorage"
     >
       <App />
@@ -32,7 +39,4 @@ root.render(
   </React.StrictMode>
 );
 
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
 reportWebVitals();

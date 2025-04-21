@@ -1,8 +1,4 @@
-type Message = {
-  text: string;
-  user: string;
-  timestamp: string;
-};
+import { Message } from "../../types/Message";
 
 export default function MessagesList({ messages }: { messages: Message[] }) {
 
@@ -10,11 +6,11 @@ export default function MessagesList({ messages }: { messages: Message[] }) {
 
   return (
     <ul>
-      {messages.map((m, i) => (
-        <li key={i}>
-          <strong>{m.user}:</strong> {m.text}
+      {messages.map((message, index) => (
+        <li key={index}>
+          <strong>{message.user}:</strong> {message.text}
           <br />
-          <small>{new Date(m.timestamp).toLocaleString()}</small>
+          <small>{new Date(message.timestamp).toLocaleString()}</small>
         </li>
       ))}
     </ul>
