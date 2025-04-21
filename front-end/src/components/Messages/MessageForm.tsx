@@ -1,21 +1,28 @@
 import React, { useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
-export default function MessageForm({ onMessageSent }: { onMessageSent: () => void }) {
+type MessageStatus = 'idle' | 'sending' | 'error' | 'sent';
 
+interface MessageFormProps {
+  onMessageSent: () => void;
+}
+
+export default function MessageForm({ onMessageSent }: MessageFormProps) {
   const { getAccessTokenSilently } = useAuth0();
   const [text, setText] = useState('');
-  const [status, setStatus] = useState<'idle' | 'sending' | 'error' | 'sent'>('idle');
+  const [status, setStatus] = useState<MessageStatus>('idle');
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (!text.trim()) return;
 
     setStatus('sending');
 
     try {
       const token = await getAccessTokenSilently();
-      await fetch('http://localhost:3011/messages', {
+
+      const response = await fetch('http://localhost:3011/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -24,11 +31,13 @@ export default function MessageForm({ onMessageSent }: { onMessageSent: () => vo
         body: JSON.stringify({ text }),
       });
 
+      if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
       setText('');
       setStatus('sent');
-      onMessageSent(); // 🔁 refresh messages
-    } catch (e) {
-      console.error('Submission error:', e);
+      onMessageSent();
+    } catch (error) {
+      console.error('Failed to send message:', error);
       setStatus('error');
     } finally {
       setTimeout(() => setStatus('idle'), 1500);
@@ -36,16 +45,19 @@ export default function MessageForm({ onMessageSent }: { onMessageSent: () => vo
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ marginBottom: '1rem' }}>
+    <form onSubmit={handleSubmit} className="message-form">
       <input
         value={text}
         onChange={(e) => setText(e.target.value)}
         placeholder="Write a message..."
       />
-      <button type="submit">Send</button>
-      {status === 'sending' && <span> Sending…</span>}
-      {status === 'error' && <span style={{ color: 'red' }}> Error!</span>}
-      {status === 'sent' && <span style={{ color: 'green' }}> Sent!</span>}
+      <button type="submit" disabled={status === 'sending'}>
+        Send
+      </button>
+
+      {status === 'sending' && <span className="status sending">Sending…</span>}
+      {status === 'error' && <span className="status error">Error!</span>}
+      {status === 'sent' && <span className="status sent">Sent!</span>}
     </form>
   );
 }
